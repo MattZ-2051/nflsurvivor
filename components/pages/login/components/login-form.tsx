@@ -9,7 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -17,13 +16,13 @@ import { z } from "zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { loginSchema } from "@/lib/form-schemas";
+import { login } from "@/app/auth/login/actions";
 
 export function LoginForm({
   className,
@@ -32,15 +31,10 @@ export function LoginForm({
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: "",
+      email: "",
+      password: "",
     },
   });
-
-  function onSubmit(values: z.infer<typeof loginSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-  }
   return (
     <div
       className={cn(
@@ -58,11 +52,11 @@ export function LoginForm({
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form action={login} className="space-y-8">
               <div className="flex flex-col gap-6">
                 <FormField
                   control={form.control}
-                  name="username"
+                  name="email"
                   render={({ field }) => (
                     <>
                       <div className="grid gap-2">
@@ -70,16 +64,25 @@ export function LoginForm({
                           <FormLabel htmlFor="username">Username</FormLabel>
                           <FormControl>
                             <Input
-                              id="username"
-                              type="username"
+                              id="email"
+                              type="email"
                               {...field}
-                              placeholder="username"
+                              placeholder="email"
                               required
                             />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       </div>
+                    </>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <>
                       <div className="grid gap-2">
                         <FormItem>
                           <FormLabel htmlFor="password">Password</FormLabel>
@@ -95,12 +98,13 @@ export function LoginForm({
                           <FormMessage />
                         </FormItem>
                       </div>
-                      <Button type="submit" className="w-full">
-                        Login
-                      </Button>
                     </>
                   )}
-                ></FormField>
+                />
+
+                <Button type="submit" className="w-full">
+                  Login
+                </Button>
               </div>
               <div className="mt-4 text-center text-sm">
                 Don&apos;t have an account?{" "}
