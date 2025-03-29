@@ -1,6 +1,6 @@
-import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
-import Link from "next/link";
+import { Geist } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -33,6 +33,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <main className="min-h-screen w-full p-6">{children}</main>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

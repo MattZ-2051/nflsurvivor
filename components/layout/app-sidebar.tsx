@@ -37,9 +37,9 @@ export function AppSidebar() {
         <SidebarGroupContent>
           <SidebarMenu>
             {items.map((item) => (
-              <>
+              <div key={item.title}>
                 {item.title === "Logout" && <SidebarGroup />}
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem>
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
                       <item.icon />
@@ -47,7 +47,7 @@ export function AppSidebar() {
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-              </>
+              </div>
             ))}
           </SidebarMenu>
         </SidebarGroupContent>
