@@ -41,7 +41,7 @@ export function LoginForm({
     // ✅ This will be type-safe and validated.
     const result = await loginAction(values);
     if (result?.error) {
-      toast(result.error);
+      toast.error(result.error);
     }
     return;
   };

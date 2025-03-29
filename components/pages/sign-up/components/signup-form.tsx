@@ -1,5 +1,6 @@
 "use client";
 
+import { signUpAction } from "@/app/auth/sign-up/actions";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,11 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -21,8 +17,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { signUpSchema } from "@/lib/form-schemas";
-import { signUpAction } from "@/app/auth/sign-up/actions";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 export function SignupForm({
   className,
@@ -37,6 +38,16 @@ export function SignupForm({
     },
   });
 
+  const onSubmit = async (
+    values: z.infer<typeof signUpSchema>,
+  ): Promise<void> => {
+    const result = await signUpAction(values);
+    console.log("acdtio result", result);
+    if (result?.error) {
+      toast.error(result.error);
+    }
+    return;
+  };
   return (
     <div
       className={cn(
@@ -54,7 +65,7 @@ export function SignupForm({
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form action={signUpAction} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <div className="flex flex-col gap-6">
                 <FormField
                   control={form.control}
@@ -130,7 +141,7 @@ export function SignupForm({
                   )}
                 />
                 <Button type="submit" className="w-full">
-                  Login
+                  Sign Up
                 </Button>
               </div>
               <div className="mt-4 text-center text-sm">

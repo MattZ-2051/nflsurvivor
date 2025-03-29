@@ -33,7 +33,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <main className="min-h-screen w-full p-6">{children}</main>
-          <Toaster />
+          <Toaster richColors position="top-center" closeButton />
         </ThemeProvider>
       </body>
     </html>
