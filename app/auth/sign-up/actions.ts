@@ -1,21 +1,25 @@
 "use server";
-import { encodedRedirect } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/server";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-export const signUpAction = async (formData: FormData) => {
-  const email = formData.get("email")?.toString();
-  const password = formData.get("password")?.toString();
+export const signUpAction = async ({
+  email,
+  password,
+  confirmPassword,
+}: {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}) => {
   const supabase = await createClient();
   const origin = (await headers()).get("origin");
 
-  if (!email || !password) {
-    return encodedRedirect(
-      "error",
-      "/auth/sign-up",
-      "Email and password are required",
-    );
+  if (password !== confirmPassword) {
+    return {
+      error: "Passwords must match",
+    };
   }
 
   const { error } = await supabase.auth.signUp({
@@ -27,13 +31,11 @@ export const signUpAction = async (formData: FormData) => {
   });
 
   if (error) {
-    console.error(error.code + " " + error.message);
-    return encodedRedirect("error", "/auth/sign-up", error.message);
-  } else {
-    return encodedRedirect(
-      "success",
-      "/auth/sign-up",
-      "Thanks for signing up! Please check your email for a verification link.",
-    );
+    return {
+      error: error.message,
+    };
   }
+  revalidatePath("/", "layout");
+  redirect("/auth/login");
+  return;
 };
