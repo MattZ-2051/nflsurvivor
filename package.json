@@ -6,7 +6,10 @@
     "start": "next start",
     "prepare": "husky && husky install",
     "format": "prettier --write .",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:migrate": "npx drizzle-kit migrate",
+    "db:generate": "npx drizzle-kit generate",
+    "db:push": "supabase db push"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",
