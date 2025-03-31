@@ -1,26 +1,21 @@
-import { Home, Inbox, LogOut, Joystick } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarFooter,
 } from "@/components/ui/sidebar";
+import { Home, LogOut } from "lucide-react";
 
 const items = [
   {
     title: "Home",
     url: "/home",
     icon: Home,
-  },
-  {
-    title: "Games",
-    url: "/games",
-    icon: Joystick,
   },
   {
     title: "Logout",

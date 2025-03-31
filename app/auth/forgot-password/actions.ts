@@ -1,7 +1,6 @@
 "use server";
 
-import { encodedRedirect } from "@/utils/utils";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -12,11 +11,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
   const callbackUrl = formData.get("callbackUrl")?.toString();
 
   if (!email) {
-    return encodedRedirect(
-      "error",
-      "/auth/forgot-password",
-      "Email is required",
-    );
+    return redirect("/auth/forgot-password");
   }
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
@@ -25,20 +20,13 @@ export const forgotPasswordAction = async (formData: FormData) => {
 
   if (error) {
     console.error(error.message);
-    return encodedRedirect(
-      "error",
-      "/auth/forgot-password",
-      "Could not reset password",
-    );
+
+    return redirect("/auth/forgot-password");
   }
 
   if (callbackUrl) {
     return redirect(callbackUrl);
   }
 
-  return encodedRedirect(
-    "success",
-    "/auth/forgot-password",
-    "Check your email for a link to reset your password.",
-  );
+  return redirect("/auth/forgot-password");
 };
