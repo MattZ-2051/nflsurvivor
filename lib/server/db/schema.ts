@@ -48,3 +48,6 @@ export const usersToGroupsRelations = relations(playersToGames, ({ one }) => ({
 
 export type InsertPlayer = typeof playersTable.$inferInsert;
 export type SelectPlayer = typeof playersTable.$inferSelect;
+
+export type InsertGame = typeof gamesTable.$inferInsert;
+export type SelectGame = typeof gamesTable.$inferSelect;
