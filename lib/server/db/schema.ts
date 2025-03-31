@@ -1,27 +1,33 @@
 import { relations } from "drizzle-orm";
 import {
-  integer,
-  pgSchema,
   pgTable,
   primaryKey,
   serial,
   varchar,
   uuid,
 } from "drizzle-orm/pg-core";
+import { authUsers } from "drizzle-orm/supabase";
 
 export const playersTable = pgTable("players", {
   id: serial("id").primaryKey(),
   username: varchar("username"),
-});
+  user_id: uuid("user_id")
+    .references(() => authUsers.id, { onDelete: "cascade" })
+    .notNull(),
+}).enableRLS();
 
-export const playersRelations = relations(playersTable, ({ one, many }) => ({
+export const playersRelations = relations(playersTable, ({ many }) => ({
   playersToGames: many(playersToGames),
 }));
 
 export const gamesTable = pgTable("games", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 50 }).notNull(),
-});
+}).enableRLS();
+
+export const gameRelations = relations(gamesTable, ({ one, many }) => ({
+  playersToGames: many(playersToGames),
+}));
 
 export const playersToGames = pgTable(
   "players_to_games",
@@ -34,13 +40,14 @@ export const playersToGames = pgTable(
       .references(() => gamesTable.id),
   },
   (t) => [primaryKey({ columns: [t.player_id, t.game_id] })],
-);
-export const usersToGroupsRelations = relations(playersToGames, ({ one }) => ({
-  group: one(gamesTable, {
+).enableRLS();
+
+export const playersToGamesRelations = relations(playersToGames, ({ one }) => ({
+  game: one(gamesTable, {
     fields: [playersToGames.game_id],
     references: [gamesTable.id],
   }),
-  playere: one(playersTable, {
+  player: one(playersTable, {
     fields: [playersToGames.player_id],
     references: [playersTable.id],
   }),

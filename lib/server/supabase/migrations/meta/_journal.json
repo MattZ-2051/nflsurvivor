@@ -5,8 +5,22 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1743355623274,
-      "tag": "0000_typical_vengeance",
+      "when": 1743444844839,
+      "tag": "0000_goofy_golden_guardian",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1743448689755,
+      "tag": "0001_spooky_the_call",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1743449694295,
+      "tag": "0002_real_rockslide",
       "breakpoints": true
     }
   ]

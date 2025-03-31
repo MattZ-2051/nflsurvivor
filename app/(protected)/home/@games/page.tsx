@@ -1,4 +1,4 @@
-import Games from "@/components/pages/home/games";
+import GamesDashboard from "@/components/pages/home/games-dashboard";
 
 export default async function GamesPage() {
   const res = await fetch(`${process.env.URL!}/api/game/`, { method: "GET" });
@@ -11,7 +11,7 @@ export default async function GamesPage() {
 
   return (
     <div className="w-full h-1/2 bg-secondary rounded-lg p-3">
-      <Games games={data.games} />
+      <GamesDashboard games={data.games} />
     </div>
   );
 }

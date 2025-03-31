@@ -1,6 +1,6 @@
 {
-  "id": "d37a062c-5a89-41bf-b5ac-849ffd83f1cd",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "40cd6c57-c576-4ba0-981f-5a3983772a25",
+  "prevId": "d37a062c-5a89-41bf-b5ac-849ffd83f1cd",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -43,7 +43,7 @@
           "name": "username",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "user_id": {
           "name": "user_id",
